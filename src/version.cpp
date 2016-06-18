@@ -14,7 +14,7 @@
 // the list of ancient coinage, from oldest known to more recent. 
 // You can find ideas for future client names, here: http://en.wikipedia.org/wiki/List_of_historical_currencies
 
-const std::string CLIENT_NAME("PrimeChain");
+const std::string CLIENT_NAME("Primerdoodle");
 
 // Client version number
 #define CLIENT_VERSION_SUFFIX   ""
@@ -51,7 +51,7 @@ const std::string CLIENT_NAME("PrimeChain");
     "v" STRINGIFY(maj) "." STRINGIFY(min) "." STRINGIFY(rev) "." STRINGIFY(build) "-g" commit
 
 #define BUILD_DESC_FROM_UNKNOWN(maj,min,rev,build) \
-    "v" STRINGIFY(maj) "." STRINGIFY(min) "." STRINGIFY(rev) "." STRINGIFY(build) "-PRIME"
+    "v" STRINGIFY(maj) "." STRINGIFY(min) "." STRINGIFY(rev) "." STRINGIFY(build) "-Primerdoodle"
 
 #ifndef BUILD_DESC
 #    ifdef GIT_COMMIT_ID
