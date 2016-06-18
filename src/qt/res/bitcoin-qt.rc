@@ -1,0 +1,39 @@
+IDI_ICON1 ICON DISCARDABLE "icons/bitcoin.ico"
+
+//#include <windows.h>             // needed for VERSIONINFO
+#include "../../version.h" // holds the needed client version information
+
+#define STRINGIZE(X) DO_STRINGIZE(X)
+#define DO_STRINGIZE(X) #X
+#define VER_PRODUCTVERSION     NEG_VERSION_MAJOR,NEG_VERSION_MINOR,NEG_VERSION_REVISION,NEG_VERSION_BUILD
+#define VER_PRODUCTVERSION_STR STRINGIZE(NEG_VERSION_MAJOR) "." STRINGIZE(NEG_VERSION_MINOR) "." STRINGIZE(NEG_VERSION_REVISION) "." STRINGIZE(NEG_VERSION_BUILD)
+#define VER_FILEVERSION        VER_PRODUCTVERSION
+#define VER_FILEVERSION_STR    VER_PRODUCTVERSION_STR
+
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION     VER_FILEVERSION
+PRODUCTVERSION  VER_PRODUCTVERSION
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904E4" // U.S. English - multilingual (hex)
+        BEGIN
+            VALUE "CompanyName",        "PrimeChain"
+            VALUE "FileDescription",    "PrimeChain-Qt (OSS GUI client for PrimeChain Coin)"
+            VALUE "FileVersion",        VER_FILEVERSION_STR
+            VALUE "InternalName",       "PrimeChain-Qt"
+            VALUE "LegalCopyright",     "2015 The PrimeChain developers, 2009-2014 The Bitcoin developers, 2012-2014 The PrimeChain developers"
+            VALUE "LegalTrademarks1",   "Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php."
+            VALUE "OriginalFilename",   "PrimeChain-Qt.exe"
+            VALUE "ProductName",        "PrimeChain-Qt"
+            VALUE "ProductVersion",     VER_PRODUCTVERSION_STR
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1252 // language neutral - multilingual (decimal)
+    END
+END
