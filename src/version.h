@@ -14,9 +14,9 @@
 // These need to be macro's, as version.cpp's voodoo requires it
 
 // PrimeChain version - intended for display purpose only
-#define NEG_VERSION_MAJOR       6
+#define NEG_VERSION_MAJOR       8
 #define NEG_VERSION_MINOR       0
-#define NEG_VERSION_REVISION    1
+#define NEG_VERSION_REVISION    0
 #define NEG_VERSION_BUILD       0
 
 static const int NEG_VERSION =
