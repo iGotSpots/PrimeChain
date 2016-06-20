@@ -4,6 +4,12 @@ VERSION = 0.1.2.0
 INCLUDEPATH += src src/json src/qt
 DEFINES += QT_GUI BOOST_THREAD_USE_LIB BOOST_SPIRIT_THREADSAFE USE_IPV6
 CONFIG += no_include_pwd
+QMAKE_CXXFLAGS = -fpermissive
+
+greaterThan(QT_MAJOR_VERSION, 4) {
+    QT += widgets webkit webkitwidgets
+	DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
+}
 
 
 # for boost 1.37, add -mt to the boost libraries 
@@ -176,7 +182,8 @@ HEADERS += src/qt/bitcoingui.h \
     src/qt/virtualkeyboard.h \
     src/qt/multisigaddressentry.h \
     src/qt/multisiginputentry.h \
-    src/qt/multisigdialog.h
+    src/qt/multisigdialog.h \
+	src/qt/analytics.h
 
 SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/transactiontablemodel.cpp \
@@ -242,7 +249,8 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/qt/virtualkeyboard.cpp \
     src/qt/multisigaddressentry.cpp \
     src/qt/multisiginputentry.cpp \
-    src/qt/multisigdialog.cpp
+    src/qt/multisigdialog.cpp \
+	src/qt/analytics.cpp
 
 RESOURCES += \
     src/qt/bitcoin.qrc
@@ -261,7 +269,8 @@ FORMS += \
     src/qt/forms/rpcconsole.ui \
     src/qt/forms/multisigaddressentry.ui \
     src/qt/forms/multisiginputentry.ui \
-    src/qt/forms/multisigdialog.ui
+    src/qt/forms/multisigdialog.ui \
+	src/qt/forms/analytics.ui
 
 contains(USE_QRCODE, 1) {
 HEADERS += src/qt/qrcodedialog.h
@@ -333,7 +342,6 @@ isEmpty(BOOST_INCLUDE_PATH) {
     macx:BOOST_INCLUDE_PATH = /opt/local/include
 }
 
-windows:LIBS += -lws2_32 -lshlwapi
 windows:DEFINES += WIN32
 windows:RC_FILE = src/qt/res/bitcoin-qt.rc
 
@@ -365,7 +373,7 @@ INCLUDEPATH += $$BOOST_INCLUDE_PATH $$BDB_INCLUDE_PATH $$OPENSSL_INCLUDE_PATH $$
 LIBS += $$join(BOOST_LIB_PATH,,-L,) $$join(BDB_LIB_PATH,,-L,) $$join(OPENSSL_LIB_PATH,,-L,) $$join(QRENCODE_LIB_PATH,,-L,)
 LIBS += -lssl -lcrypto -ldb_cxx$$BDB_LIB_SUFFIX
 # -lgdi32 has to happen after -lcrypto (see  #681)
-windows:LIBS += -lole32 -luuid -lgdi32
+windows:LIBS +=  -lws2_32 -lshlwapi -lole32 -luuid -lgdi32
 LIBS += -lboost_system$$BOOST_LIB_SUFFIX -lboost_filesystem$$BOOST_LIB_SUFFIX -lboost_program_options$$BOOST_LIB_SUFFIX -lboost_thread$$BOOST_THREAD_LIB_SUFFIX
 
 contains(RELEASE, 1) {

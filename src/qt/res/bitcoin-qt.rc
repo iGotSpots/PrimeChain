@@ -1,6 +1,6 @@
 IDI_ICON1 ICON DISCARDABLE "icons/bitcoin.ico"
 
-//#include <windows.h>             // needed for VERSIONINFO
+#include <windows.h>             // needed for VERSIONINFO
 #include "../../version.h" // holds the needed client version information
 
 #define STRINGIZE(X) DO_STRINGIZE(X)
