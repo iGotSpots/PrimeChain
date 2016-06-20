@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 
+#include "analytics.h"
+
 class TransactionTableModel;
 class ClientModel;
 class WalletModel;
@@ -69,6 +71,7 @@ private:
     SendCoinsDialog *sendCoinsPage;
     SignVerifyMessageDialog *messagePage;
     MultisigDialog *multisigPage;
+	Analytics *analyticsPage;
 
     QLabel *labelEncryptionIcon;
     QLabel *labelConnectionsIcon;
@@ -96,6 +99,7 @@ private:
     QAction *changePassphraseAction;
     QAction *aboutQtAction;
     QAction *openRPCConsoleAction;
+	QAction *analyticsAction;
 
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
@@ -154,6 +158,8 @@ private slots:
     void gotoReceiveCoinsPage();
     /** Switch to send coins page */
     void gotoSendCoinsPage();
+	/** Switch to Analytics page */
+	void gotoAnalyticsPage();
 
     /** Show configuration dialog */
     void optionsClicked();

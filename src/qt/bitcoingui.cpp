@@ -29,6 +29,7 @@
 #include "guiutil.h"
 #include "rpcconsole.h"
 #include "wallet.h"
+#include "analytics.h"
 
 #ifdef Q_WS_MAC
 #include "macdockiconhandler.h"
@@ -57,7 +58,8 @@
 #include <QTimer>
 
 #include <QDragEnterEvent>
-#include <QUrl>
+//#include <QUrl>
+#include <QMimeData>
 
 #include <iostream>
 
@@ -116,6 +118,8 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     receiveCoinsPage = new AddressBookPage(AddressBookPage::ForEditing, AddressBookPage::ReceivingTab);
 
     sendCoinsPage = new SendCoinsDialog(this);
+	
+	analyticsPage = new Analytics(this);
 
     messagePage = new SignVerifyMessageDialog(this);
 
@@ -128,6 +132,7 @@ BitcoinGUI::BitcoinGUI(QWidget *parent):
     centralWidget->addWidget(addressBookPage);
     centralWidget->addWidget(receiveCoinsPage);
     centralWidget->addWidget(sendCoinsPage);
+	centralWidget->addWidget(analyticsPage);
 #ifdef FIRST_CLASS_MESSAGING
     centralWidget->addWidget(messagePage);
 #endif
@@ -226,6 +231,12 @@ void BitcoinGUI::createActions()
     sendCoinsAction->setCheckable(true);
     sendCoinsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_2));
     tabGroup->addAction(sendCoinsAction);
+	
+	analyticsAction = new QAction(QIcon(":/icons/web"), tr("&Analytics"), this);
+    analyticsAction->setToolTip(tr("View Prime Analytics"));
+    analyticsAction->setCheckable(true);
+    analyticsAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_7));
+    tabGroup->addAction(analyticsAction);
 
     messageAction = new QAction(QIcon(":/icons/edit"), tr("Sign/Verify &message"), this);
     messageAction->setToolTip(tr("Prove you control an address"));
@@ -253,6 +264,8 @@ void BitcoinGUI::createActions()
     connect(messageAction, SIGNAL(triggered()), this, SLOT(gotoMessagePage()));
     connect(multisigAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
     connect(multisigAction, SIGNAL(triggered()), this, SLOT(gotoMultisigPage()));
+	connect(analyticsAction, SIGNAL(triggered()), this, SLOT(gotoAnalyticsPage()));
+    connect(analyticsAction, SIGNAL(triggered()), this, SLOT(showNormalIfMinimized()));
 
     quitAction = new QAction(QIcon(":/icons/quit"), tr("E&xit"), this);
     quitAction->setToolTip(tr("Quit application"));
@@ -338,8 +351,9 @@ void BitcoinGUI::createToolBars()
     toolbar->addAction(sendCoinsAction);
     toolbar->addAction(receiveCoinsAction);
     toolbar->addAction(historyAction);
+	toolbar->addAction(addressBookAction);
     toolbar->addAction(mintingAction);
-    toolbar->addAction(addressBookAction);
+	toolbar->addAction(analyticsAction);
 #ifdef FIRST_CLASS_MESSAGING
     toolbar->addAction(messageAction);
 #endif
@@ -446,6 +460,7 @@ void BitcoinGUI::createTrayIcon()
     trayIconMenu->addAction(multisigAction);
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(optionsAction);
+	trayIconMenu->addAction(analyticsAction);
 #ifndef Q_WS_MAC // This is built-in on Mac
     trayIconMenu->addSeparator();
     trayIconMenu->addAction(quitAction);
@@ -785,6 +800,15 @@ void BitcoinGUI::gotoMultisigPage()
 {
     multisigPage->show();
     multisigPage->setFocus();
+}
+
+void BitcoinGUI::gotoAnalyticsPage()
+{
+	analyticsAction->setChecked(true);
+	centralWidget->setCurrentWidget(analyticsPage);
+
+	exportAction->setEnabled(false);
+	disconnect(exportAction, SIGNAL(triggered()), 0, 0);
 }
 
 void BitcoinGUI::dragEnterEvent(QDragEnterEvent *event)
